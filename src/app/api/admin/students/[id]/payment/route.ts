@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { uk } from "@/copy/uk";
 import { recordPayment } from "@/server/admin";
+import { ReadOnlyError } from "@/server/data-source";
 
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const body = await req.json();
@@ -14,6 +15,9 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     const { id } = await params;
     return NextResponse.json(await recordPayment(id, sessions));
   } catch (error: unknown) {
+    if (error instanceof ReadOnlyError) {
+      return NextResponse.json({ error: uk.readOnly.blocked }, { status: 403 });
+    }
     const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json({ error: message }, { status: 404 });
   }

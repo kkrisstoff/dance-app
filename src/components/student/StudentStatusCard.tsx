@@ -10,12 +10,14 @@ export function StudentStatusCard({
   package: activePackage,
   studentId,
   deductedToday,
+  readOnly,
 }: {
   name: string;
   status: StudentStatus;
   package: PackageSummary | null;
   studentId: string;
   deductedToday: boolean;
+  readOnly: boolean;
 }) {
   const theme = statusTheme[status.code];
   const { label, sublabel } = uk.describeStatus(status);
@@ -51,8 +53,14 @@ export function StudentStatusCard({
 
       <DeductButton
         studentId={studentId}
-        canDeduct={status.canDeduct && !deductedToday}
-        blockedReason={deductedToday ? uk.deduct.alreadyToday : uk.deductBlockedReason[status.code]}
+        canDeduct={status.canDeduct && !deductedToday && !readOnly}
+        blockedReason={
+          readOnly
+            ? uk.readOnly.blocked
+            : deductedToday
+              ? uk.deduct.alreadyToday
+              : uk.deductBlockedReason[status.code]
+        }
       />
     </>
   );

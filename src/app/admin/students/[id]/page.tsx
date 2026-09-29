@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { uk } from "@/copy/uk";
 import { statusTheme } from "@/components/student/statusTheme";
 import { computeStatus } from "@/lib/studentStatus";
+import { isReadOnly } from "@/server/data-source";
 import { getStudentById } from "@/server/students";
 import { PaymentForm } from "./PaymentForm";
 import { CopyLinkButton } from "./CopyLinkButton";
@@ -31,7 +32,7 @@ export default async function AdminStudentPage({ params }: { params: Promise<{ i
       </div>
       <div className="mt-8">
         <h2 className="text-lg font-semibold text-gray-900">{uk.admin.payment}</h2>
-        <PaymentForm studentId={record.student.id} />
+        <PaymentForm studentId={record.student.id} readOnly={isReadOnly()} />
       </div>
       <div className="mt-8">
         <h2 className="text-lg font-semibold text-gray-900">{uk.admin.qrLink}</h2>

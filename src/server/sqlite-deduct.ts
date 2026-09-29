@@ -3,13 +3,9 @@ import { and, eq } from "drizzle-orm";
 import { db } from "@/db/client";
 import { attendances, packages, students } from "@/db/schema";
 
-export type DeductErrorCode = "not_found" | "no_package" | "expired" | "empty" | "already_today";
+import { DeductError } from "./deduct-errors";
 
-export class DeductError extends Error {
-  constructor(public code: DeductErrorCode) {
-    super(code);
-  }
-}
+export { DeductError, type DeductErrorCode } from "./deduct-errors";
 
 function today(): string {
   return new Date().toISOString().slice(0, 10);

@@ -15,3 +15,14 @@ export function getDataSource(): DataSource {
   if (process.env.VERCEL) return "demo";
   return "sqlite";
 }
+
+/** Demo students are built in, so nothing can be added, paid, or deducted. */
+export function isReadOnly(): boolean {
+  return getDataSource() === "demo";
+}
+
+export class ReadOnlyError extends Error {
+  constructor() {
+    super("read_only");
+  }
+}

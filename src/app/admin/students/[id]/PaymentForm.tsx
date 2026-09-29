@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { uk } from "@/copy/uk";
 
-export function PaymentForm({ studentId }: { studentId: string }) {
+export function PaymentForm({ studentId, readOnly }: { studentId: string; readOnly: boolean }) {
   const router = useRouter();
   const [sessions, setSessions] = useState("");
   const [loading, setLoading] = useState(false);
@@ -52,13 +52,15 @@ export function PaymentForm({ studentId }: { studentId: string }) {
         value={sessions}
         onChange={(e) => setSessions(e.target.value)}
         placeholder={uk.admin.sessionsPlaceholder}
-        className="rounded-xl border border-gray-200 px-4 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none"
+        disabled={readOnly}
+        className="rounded-xl border border-gray-200 px-4 py-3 text-base text-gray-900 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none disabled:bg-gray-100"
       />
+      {readOnly && <p className="text-sm text-amber-800">{uk.readOnly.notice}</p>}
       {error && <p className="text-sm text-red-600">{error}</p>}
       {success && <p className="text-sm text-green-700">{success}</p>}
       <button
         type="submit"
-        disabled={loading}
+        disabled={loading || readOnly}
         className="rounded-2xl bg-gray-900 py-4 text-base font-semibold text-white active:bg-gray-700 disabled:bg-gray-300"
       >
         {loading ? "..." : uk.admin.recordPayment}

@@ -4,6 +4,7 @@ import { uk } from "@/copy/uk";
 import { computeStatus } from "@/lib/studentStatus";
 import { statusTheme } from "@/components/student/statusTheme";
 import { listAllStudents } from "@/server/admin";
+import { isReadOnly } from "@/server/data-source";
 import { getStudentById } from "@/server/students";
 
 export default async function AdminPage() {
@@ -26,12 +27,18 @@ export default async function AdminPage() {
       </p>
       <h1 className="mt-2 text-3xl font-bold text-gray-900">{uk.admin.studentList}</h1>
 
-      <Link
-        href="/admin/students/new"
-        className="mt-6 block w-full rounded-2xl bg-gray-900 py-4 text-center text-base font-semibold text-white active:bg-gray-700"
-      >
-        + {uk.admin.addStudent}
-      </Link>
+      {isReadOnly() ? (
+        <p className="mt-6 rounded-2xl bg-amber-50 px-5 py-4 text-sm text-amber-800">
+          {uk.readOnly.notice}
+        </p>
+      ) : (
+        <Link
+          href="/admin/students/new"
+          className="mt-6 block w-full rounded-2xl bg-gray-900 py-4 text-center text-base font-semibold text-white active:bg-gray-700"
+        >
+          + {uk.admin.addStudent}
+        </Link>
+      )}
 
       {studentsWithStatus.length === 0 ? (
         <p className="mt-10 text-center text-sm text-gray-400">{uk.admin.noStudents}</p>

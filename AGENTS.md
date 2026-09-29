@@ -13,3 +13,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 Product behavior is defined only in `docs/product.md`. Follow that file. If the app and that file disagree, fix the app or change `docs/product.md` on purpose. Do not copy those rules into this file or into `plan.md`.
 
 `plan.md` is the build order. It does not override `docs/product.md`.
+
+Do not run git commands that change the repository or its remote: no commit, push, add, reset, checkout, or stash. The user commits and pushes manually.

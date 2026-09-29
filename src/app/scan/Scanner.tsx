@@ -16,6 +16,15 @@ function studentIdFromQr(text: string): string | null {
   }
 }
 
+// Html5Qrcode.stop() throws synchronously when the camera is not running.
+function stopScanner(scanner: Html5Qrcode): Promise<void> {
+  try {
+    return scanner.stop().catch(() => undefined);
+  } catch {
+    return Promise.resolve();
+  }
+}
+
 export function Scanner() {
   const router = useRouter();
   const [error, setError] = useState("");
@@ -37,20 +46,20 @@ export function Scanner() {
             return;
           }
           handled.current = true;
-          scanner
-            .stop()
-            .catch(() => undefined)
-            .finally(() => router.push(`/student/${studentId}`));
+          stopScanner(scanner).then(() => router.push(`/student/${studentId}`));
         },
         () => undefined
       )
+      .then(() => {
+        if (stopped) stopScanner(scanner);
+      })
       .catch(() => {
         if (!stopped) setError(uk.scan.cameraError);
       });
 
     return () => {
       stopped = true;
-      scanner.stop().catch(() => undefined);
+      stopScanner(scanner);
     };
   }, [router]);
 

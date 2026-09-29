@@ -4,6 +4,7 @@ import { StudentStatusCard } from "@/components/student/StudentStatusCard";
 import { statusTheme } from "@/components/student/statusTheme";
 import { uk } from "@/copy/uk";
 import { computeStatus } from "@/lib/studentStatus";
+import { isReadOnly } from "@/server/data-source";
 import { getStudentById, wasDeductedToday } from "@/server/students";
 
 export default async function StudentPage({ params }: { params: Promise<{ id: string }> }) {
@@ -23,6 +24,7 @@ export default async function StudentPage({ params }: { params: Promise<{ id: st
         package={record.package}
         studentId={record.student.id}
         deductedToday={deductedToday}
+        readOnly={isReadOnly()}
       />
       <div className="px-4 mt-4 pb-8">
         <Link

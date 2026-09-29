@@ -1,5 +1,5 @@
 import type { StudentListItem, StudentRecord } from "@/lib/models";
-import { getDataSource } from "./data-source";
+import { getDataSource, ReadOnlyError } from "./data-source";
 
 export type { StudentListItem, StudentRecord } from "@/lib/models";
 
@@ -20,7 +20,7 @@ export async function listAllStudents(): Promise<StudentListItem[]> {
 
 export async function createStudent(name: string): Promise<CreateStudentResult> {
   if (getDataSource() === "demo") {
-    throw new Error("Cannot create students in demo mode");
+    throw new ReadOnlyError();
   }
   const { createSqliteStudent } = await import("./sqlite-admin");
   return createSqliteStudent(name);
@@ -31,7 +31,7 @@ export async function recordPayment(
   sessions: number
 ): Promise<RecordPaymentResult> {
   if (getDataSource() === "demo") {
-    throw new Error("Cannot record payments in demo mode");
+    throw new ReadOnlyError();
   }
   const { recordSqlitePayment } = await import("./sqlite-admin");
   return recordSqlitePayment(id, sessions);

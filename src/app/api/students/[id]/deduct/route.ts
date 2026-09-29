@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { uk } from "@/copy/uk";
 import { deductSession, type DeductErrorCode } from "@/server/students";
-import { DeductError } from "@/server/sqlite-deduct";
+import { DeductError } from "@/server/deduct-errors";
+import { ReadOnlyError } from "@/server/data-source";
 
 const messages: Record<DeductErrorCode, { status: number; error: string }> = {
   not_found: { status: 404, error: uk.api.studentNotFound },
@@ -17,6 +18,9 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     const result = await deductSession(id);
     return NextResponse.json(result);
   } catch (error) {
+    if (error instanceof ReadOnlyError) {
+      return NextResponse.json({ error: uk.readOnly.blocked }, { status: 403 });
+    }
     if (error instanceof DeductError) {
       const mapped = messages[error.code];
       return NextResponse.json({ error: mapped.error }, { status: mapped.status });

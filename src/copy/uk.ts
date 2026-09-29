@@ -106,6 +106,11 @@ export const uk = {
   api: {
     studentNotFound: "Студента не знайдено",
   },
+  // TODO: Temporary fix for demo mode
+  readOnly: {
+    notice: "Демо-версія: дані лише для перегляду",
+    blocked: "У демо-версії змінювати дані не можна",
+  },
   admin: {
     title: "Адміністрування",
     studentList: "Студенти",

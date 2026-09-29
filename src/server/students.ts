@@ -1,8 +1,6 @@
 import type { StudentRecord } from "@/lib/models";
-import { getDataSource } from "./data-source";
-import type { DeductErrorCode } from "./sqlite-deduct";
-
-export type { DeductErrorCode } from "./sqlite-deduct";
+import { getDataSource, ReadOnlyError } from "./data-source";
+export type { DeductErrorCode } from "./deduct-errors";
 
 export type { StudentRecord } from "@/lib/models";
 
@@ -27,10 +25,7 @@ export async function wasDeductedToday(id: string): Promise<boolean> {
 }
 
 export async function deductSession(id: string): Promise<{ remaining: number }> {
-  if (getDataSource() === "demo") {
-    const { DeductError } = await import("./sqlite-deduct");
-    throw new DeductError("not_found");
-  }
+  if (getDataSource() === "demo") throw new ReadOnlyError();
   const { deductSqliteSession } = await import("./sqlite-deduct");
   return deductSqliteSession(id);
 }
