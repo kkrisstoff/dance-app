@@ -7,15 +7,16 @@ import { uk } from "@/copy/uk";
 import { computeStatus } from "@/lib/studentStatus";
 import { getStudentById } from "@/server/students";
 
-export default async function StudentQRPage({ params }: { params: { id: string } }) {
-  const record = await getStudentById(params.id);
+export default async function StudentQRPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const record = await getStudentById(id);
   if (!record) notFound();
 
   const status = computeStatus(record.package);
   const theme = statusTheme[status.code];
   const { label, sublabel } = uk.describeStatus(status);
   const studioName = getStudioName();
-  const headersList = headers();
+  const headersList = await headers();
   const host = headersList.get("x-forwarded-host") ?? headersList.get("host") ?? "localhost:3000";
   const proto = headersList.get("x-forwarded-proto") ?? (host.startsWith("localhost") ? "http" : "https");
   const teacherUrl = `${proto}://${host}/student/${record.student.id}`;

@@ -7,8 +7,9 @@ import { getStudentById } from "@/server/students";
 import { PaymentForm } from "./PaymentForm";
 import { CopyLinkButton } from "./CopyLinkButton";
 
-export default async function AdminStudentPage({ params }: { params: { id: string } }) {
-  const record = await getStudentById(params.id);
+export default async function AdminStudentPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const record = await getStudentById(id);
   if (!record) notFound();
 
   const status = computeStatus(record.package);

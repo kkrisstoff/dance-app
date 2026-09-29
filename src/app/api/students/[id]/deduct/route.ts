@@ -11,9 +11,10 @@ const messages: Record<DeductErrorCode, { status: number; error: string }> = {
   already_today: { status: 409, error: uk.deduct.alreadyToday },
 };
 
-export async function POST(_req: Request, { params }: { params: { id: string } }) {
+export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const result = await deductSession(params.id);
+    const { id } = await params;
+    const result = await deductSession(id);
     return NextResponse.json(result);
   } catch (error) {
     if (error instanceof DeductError) {

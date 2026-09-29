@@ -6,8 +6,9 @@ import { uk } from "@/copy/uk";
 import { computeStatus } from "@/lib/studentStatus";
 import { getStudentById, wasDeductedToday } from "@/server/students";
 
-export default async function StudentPage({ params }: { params: { id: string } }) {
-  const record = await getStudentById(params.id);
+export default async function StudentPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const record = await getStudentById(id);
   if (!record) notFound();
 
   const status = computeStatus(record.package);
