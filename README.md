@@ -4,6 +4,8 @@ Smartphone app for a dance studio: a teacher opens a student, sees package statu
 
 The studio name comes from the `STUDIO_NAME` environment variable. Without it the app shows a generic name.
 
+The teacher screens and the admin area ask for a password in the browser's own prompt. Set `TEACHER_PASSWORD` and `ADMIN_PASSWORD`. Any username works. If a password is not set, its screens return an error instead of opening.
+
 ## Local
 
 ```bash
@@ -18,7 +20,7 @@ Open http://localhost:3000. Local data comes from `dance.db` (not committed).
 
 ## Demo host (UI first)
 
-Push this repo to GitHub and import it in [Vercel](https://vercel.com). No environment variables are required. Set `STUDIO_NAME` to show the customer's studio name.
+Push this repo to GitHub and import it in [Vercel](https://vercel.com). Set `TEACHER_PASSWORD` and `ADMIN_PASSWORD`. Set `STUDIO_NAME` to show the customer's studio name.
 
 On Vercel the app uses built-in demo students, so the screens work on a phone before a database is connected. Locally it keeps using SQLite.
 

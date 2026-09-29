@@ -20,7 +20,7 @@ It is not a CRM, an accounting system, a schedule, or a social network.
 - **Teacher.** Uses the app in class. Scans one student, reads the status, and may deduct one session. Does not add students or sessions.
 - **Student.** Opens a personal page on their own phone and shows a QR code. The student does not edit their package.
 
-There is one admin and one teacher in this version. There is no login. The admin area and the teacher screens are not linked from the student page. The teacher's home screen is the scanner, not the admin area.
+There is one admin and one teacher in this version. There are no user accounts and no sign-in screen. The admin area and the teacher screens are each protected by one shared password, entered in the browser's built-in password prompt. The admin password opens only the admin area. The teacher password opens only the teacher screens. The student page `/s/{id}` has no password. The admin area and the teacher screens are not linked from the student page. The teacher's home screen is the scanner, not the admin area.
 
 The interface is Ukrainian.
 
@@ -125,7 +125,7 @@ Do not build these unless this file is updated first:
 - Student search on the teacher scanner, or a class-time student list
 - Notifications, reports, analytics
 - Several admins or several teachers
-- Login or passwords
+- User accounts, sign-in screens, or passwords beyond the two shared ones above
 - Student self-registration
 
 The admin area must not replace the scanner as the teacher's home screen.
