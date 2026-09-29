@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1790007046301,
+      "tag": "0000_narrow_prima",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1790461620000,
+      "tag": "0001_remove_student_slug",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1790462400000,
+      "tag": "0002_attendance_one_per_day",
+      "breakpoints": true
+    }
+  ]
+}
